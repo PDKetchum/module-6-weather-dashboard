@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"> -->
+  </head>
+  <body>
+    <main>
+      <header class="page-title">
+        <h1 id="title">Weather Dashboard</h1>
+      </header>
+      <section class="search">
+        <h2>Search for a City:</h2>
+        <textarea id="search-input"></textarea>
+        <button id="search-button">Search</button>
+      </section>
+      <section class="search-history">
+        <h2>Search History:</h2>
+      </section>
+      <section class="search-results">
+        <article class="todays-weather">
+          <div class="" id="today-card">
+            <div class="">
+              <h5 class="" id="city-name"></h5>
+              <h6 class="" id="today-date"></h6>
+              <ul class="card-text" id="today-info"><ul>
+            </div>
+          </div>
+        </article>
+        <article class="five-day-forcast">
+          <div class="day-two"></div>
+          <div class="day-three"></div>
+          <div class="day-four"></div>
+          <div class="day-five"></div>
+          <div class="day-six"></div>
+        </article>
+      </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="./assets/script.js"></script>
+  </body>
+</html>
