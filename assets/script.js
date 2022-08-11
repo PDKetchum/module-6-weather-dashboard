@@ -1,20 +1,17 @@
-var $cityName = $("#city-name");
 var $todayDate = $("#today-date");
-var $todayInfo = $("#today-info");
-var $searchInput = $("#search-input");
 var $searchButton = $("#search-button");
+var $searchInput = $("#search-input");
+var $fiveDayForcastBody = $("#five-day-forcast-body");
+var $cityName = $("#city-name");
+var city;
 
 var dateUnix = moment().unix();
 var date = moment().format("MMMM Do, YYYY");
 var lat;
 var lon;
-var temp;
-var wind;
-var humidity;
-console.log($searchButton);
 
 function searchCoordinates() {
-  var city = $searchInput.val();
+  city = $searchInput.val();
   var url =
     "https://api.openweathermap.org/geo/1.0/direct?q=$" +
     city +
@@ -24,9 +21,9 @@ function searchCoordinates() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       lon = data[0].lon;
       lat = data[0].lat;
+
       searchWeather();
     });
 }
@@ -46,12 +43,35 @@ function searchWeather() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      var temp = data.current.temp;
+      var wind = data.current.wind_speed;
+      var humidity = data.current.humidity;
+      $("#today-temp").text("Today's temperature: " + temp + " °F");
+      $("#today-wind").text("Wind: " + wind + " mph");
+      $("#today-humidity").text("Humidity: " + humidity + " %");
 
-      temp = data.current.temp;
-      wind = data.current.wind_speed;
-      humidity = data.current.humidity;
-      $("#today-temp").text("Today's temperature: " + temp);
+      for (var i = 0; i < 5; i++) {
+        var temp = data.daily[i].temp.day;
+        var wind = data.daily[i].wind_speed;
+        var humidity = data.daily[i].humidity;
+
+        var $dayCardEl = $("<div>");
+        var $dayDateEl = $("<h4>");
+        $dayDateEl.text(
+          moment()
+            .add(1 + i, "days")
+            .format("dddd MMMM Do, YYYY")
+        );
+        var $dayTempEl = $("<p>");
+        $dayTempEl.text("temperature: " + temp + " °F");
+        var $dayWindEl = $("<p>");
+        $dayWindEl.text("Wind: " + wind + " mph");
+        var $dayHumidityEl = $("<p>");
+        $dayHumidityEl.text("Humidity: " + humidity + " %");
+
+        $dayCardEl.append($dayDateEl, $dayTempEl, $dayWindEl, $dayHumidityEl);
+        $fiveDayForcastBody.append($dayCardEl);
+      }
     });
 }
 
@@ -64,7 +84,5 @@ function print() {
 
 function printToday() {
   $todayDate.text(date);
+  $cityName.text($searchInput.val().toUpperCase());
 }
-
-// "lat": 44.9772995,
-// "lon": -93.2654692,
