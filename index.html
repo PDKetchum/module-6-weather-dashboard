@@ -7,6 +7,7 @@
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="./assets/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"> -->
   </head>
   <body>
@@ -24,24 +25,63 @@
       </section>
       <section class="search-results">
         <article class="todays-weather">
+          <h2>Today's Weather Forcast:</h2>
           <div class="" id="today-card">
             <div class="">
-              <h5 class="" id="city-name"></h5>
-              <h6 class="" id="today-date"></h6>
-              <ul class="card-text" id="today-info"><ul>
+              <h3 class="" id="city-name"></h5>
+              <h4 class="" id="today-date"></h6>
+              <div class="card-text" id="today-info">
+                <p id="today-temp"></p>
+                <p id="today-wind"></p>
+                <p id="today-humidity"></p>
+              </div>
+              
             </div>
           </div>
         </article>
         <article class="five-day-forcast">
-          <div class="day-two"></div>
-          <div class="day-three"></div>
-          <div class="day-four"></div>
-          <div class="day-five"></div>
-          <div class="day-six"></div>
+          <h2>5-day Weather Forcast:</h2>
+          <div class="day-two">
+            <h6 class="" id="day-two-date"></h6>
+            <div class="card-text" id="day-two-info">
+              <p id="day-two-temp"></p>
+              <p id="day-two-wind"></p>
+              <p id="day-two-humidity"></p>
+          </div>
+          <div class="day-three">
+            <h6 class="" id="day-three-date"></h6>
+            <div class="card-text" id="day-three-info">
+              <p id="day-three-temp"></p>
+              <p id="day-three-wind"></p>
+              <p id="day-three-humidity"></p>
+            </div>
+          <div class="day-four">
+            <h6 class="" id="day-four-date"></h6>
+            <div class="card-text" id="day-four-info">
+              <p id="day-four-temp"></p>
+              <p id="day-four-wind"></p>
+              <p id="day-four-humidity"></p>
+            </div>
+          <div class="day-five">
+            <h6 class="" id="day-five-date"></h6>
+            <div class="card-text" id="day-five-info">
+              <p id="day-five-temp"></p>
+              <p id="day-five-wind"></p>
+              <p id="day-five-humidity"></p>
+            </div>
+          <div class="day-six">
+            <h6 class="" id="day-six-date"></h6>
+            <div class="card-text" id="day-six-info">
+              <p id="day-six-temp"></p>
+              <p id="day-six-wind"></p>
+              <p id="day-six-humidity"></p>
+            </div>
         </article>
       </section>
     </main>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <script src="./assets/script.js"></script>
   </body>
