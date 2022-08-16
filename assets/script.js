@@ -55,6 +55,7 @@ function searchWeather() {
       return response.json();
     })
     .then(function (data) {
+      console.log(data);
       // Show hidden html
       $(".search-results").attr("class", "show");
       $(".search-history").attr("class", "show");
@@ -88,7 +89,7 @@ function searchWeather() {
             .format("dddd MMMM Do, YYYY")
         );
         var $dayTempEl = $("<p>");
-        $dayTempEl.text("Temperature: " + temp + " °F");
+        $dayTempEl.text("Day temperature: " + temp + " °F");
         var $dayWindEl = $("<p>");
         $dayWindEl.text("Wind: " + wind + " mph");
         var $dayHumidityEl = $("<p>");
