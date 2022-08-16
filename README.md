@@ -2,7 +2,14 @@
 
 ## Overview
 
-In preparation for an up coming trip, I created a weather outlook for multiple citys so I can view the weather and plan accordingly
+In preparation for an up coming trip, I created a weather outlook for multiple citys so I can view the weather and plan my trip accordingly.
+
+I can view the city's:
+
+- Current temperature
+- Wind mph
+- Humidity
+- Weather for the next 5 days
 
 ## Installation:
 
@@ -11,9 +18,9 @@ In preparation for an up coming trip, I created a weather outlook for multiple c
 
 ## How to use:
 
-- Type in your appointment
-- Click save to store in scheduler
-- To remove an appointment, delete text and click save
+- Type in a city
+- Click "Search"
+- To see the weather of previously searched cities, click the city name in the search history list
 
 Hosted: https://pdketchum.github.io/module-6-weather-dashboard/
 
