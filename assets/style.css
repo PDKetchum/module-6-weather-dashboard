@@ -1,0 +1,10 @@
+.search-history button {
+  border: none;
+}
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}

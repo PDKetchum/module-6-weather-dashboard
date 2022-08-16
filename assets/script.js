@@ -4,14 +4,14 @@ var $searchInput = $("#search-input");
 var $fiveDayForcastBody = $("#five-day-forcast-body");
 var $cityName = $("#city-name");
 var city;
-
 var dateUnix = moment().unix();
 var date = moment().format("MMMM Do, YYYY");
 var lat;
 var lon;
+var $searchedCityButton;
 
-function searchCoordinates() {
-  city = $searchInput.val();
+function searchCoordinates(city) {
+  console.log("search");
   var url =
     "https://api.openweathermap.org/geo/1.0/direct?q=$" +
     city +
@@ -21,14 +21,26 @@ function searchCoordinates() {
       return response.json();
     })
     .then(function (data) {
-      lon = data[0].lon;
-      lat = data[0].lat;
+      console.log(data);
+      if (data.length === 0) {
+        throw new Error("Invalid city name");
+      } else {
+        lon = data[0].lon;
+        lat = data[0].lat;
 
-      searchWeather();
+        searchWeather();
+        printCityName($searchInput.val().toUpperCase());
+        saveRecentSearches();
+        displayRecentSearches();
+      }
+    })
+    .catch(function (error) {
+      alert(error);
     });
 }
 
 function searchWeather() {
+  console.log("Search weather");
   var url =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
     lat +
@@ -43,12 +55,16 @@ function searchWeather() {
       return response.json();
     })
     .then(function (data) {
+      $(".search-results").attr("class", "show");
+      $(".search-history").attr("class", "show");
+      $todayDate.text(date);
       var temp = data.current.temp;
       var wind = data.current.wind_speed;
       var humidity = data.current.humidity;
-      $("#today-temp").text("Today's temperature: " + temp + " °F");
+      $("#today-temp").text("Current temperature: " + temp + " °F");
       $("#today-wind").text("Wind: " + wind + " mph");
       $("#today-humidity").text("Humidity: " + humidity + " %");
+      $fiveDayForcastBody.empty();
 
       for (var i = 0; i < 5; i++) {
         var temp = data.daily[i].temp.day;
@@ -56,6 +72,10 @@ function searchWeather() {
         var humidity = data.daily[i].humidity;
 
         var $dayCardEl = $("<div>");
+        $dayCardEl.attr(
+          "class",
+          "card border border-info rounded d-inline-flex p-3 "
+        );
         var $dayDateEl = $("<h4>");
         $dayDateEl.text(
           moment()
@@ -63,7 +83,7 @@ function searchWeather() {
             .format("dddd MMMM Do, YYYY")
         );
         var $dayTempEl = $("<p>");
-        $dayTempEl.text("temperature: " + temp + " °F");
+        $dayTempEl.text("Temperature: " + temp + " °F");
         var $dayWindEl = $("<p>");
         $dayWindEl.text("Wind: " + wind + " mph");
         var $dayHumidityEl = $("<p>");
@@ -78,11 +98,50 @@ function searchWeather() {
 $searchButton.on("click", print);
 
 function print() {
-  printToday();
-  searchCoordinates();
+  searchCoordinates($searchInput.val());
 }
 
-function printToday() {
-  $todayDate.text(date);
-  $cityName.text($searchInput.val().toUpperCase());
+function printCityName(city) {
+  $cityName.text(city.toUpperCase());
+}
+
+function saveRecentSearches() {
+  var recentSearch = $searchInput.val().toUpperCase();
+  var recentSearches = localStorage.getItem("RecentSearches");
+  if (recentSearches) {
+    recentSearches = JSON.parse(recentSearches);
+  } else {
+    recentSearches = [];
+  }
+
+  recentSearches.push(recentSearch);
+
+  localStorage.setItem("RecentSearches", JSON.stringify(recentSearches));
+}
+
+function displayRecentSearches() {
+  var searches = JSON.parse(localStorage.getItem("RecentSearches"));
+  var counter = 0;
+  $("#recent-searches-list").empty();
+  for (var i = searches.length - 1; i >= 0; i--) {
+    if (counter === 5) {
+      return;
+    } else {
+      var $searchedCityButton = $("<button>");
+      $searchedCityButton.attr("class", "btn btn-outline-info");
+      $searchedCityButton.text(searches[i]);
+
+      $("#recent-searches-list").append($searchedCityButton);
+      $searchedCityButton.on("click", openRecentSearch);
+      counter++;
+    }
+  }
+}
+
+function openRecentSearch(event) {
+  console.log(event);
+  var cityClicked = event.target.innerText;
+  console.log(cityClicked);
+  searchCoordinates(cityClicked);
+  printCityName(cityClicked);
 }
