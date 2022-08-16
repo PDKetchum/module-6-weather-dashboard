@@ -10,8 +10,8 @@ var lat;
 var lon;
 var $searchedCityButton;
 
+// API call to fetch coordinate by passing through a city name
 function searchCoordinates(city) {
-  console.log("search");
   var url =
     "https://api.openweathermap.org/geo/1.0/direct?q=$" +
     city +
@@ -21,7 +21,6 @@ function searchCoordinates(city) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       if (data.length === 0) {
         throw new Error("Invalid city name");
       } else {
@@ -35,12 +34,13 @@ function searchCoordinates(city) {
       }
     })
     .catch(function (error) {
+      // If city name is in valid, alert
       alert(error);
     });
 }
 
+// API call to fetch weathe information based on coordinates
 function searchWeather() {
-  console.log("Search weather");
   var url =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
     lat +
@@ -55,22 +55,27 @@ function searchWeather() {
       return response.json();
     })
     .then(function (data) {
+      // Show hidden html
       $(".search-results").attr("class", "show");
       $(".search-history").attr("class", "show");
       $todayDate.text(date);
+      // Retrieving data
       var temp = data.current.temp;
       var wind = data.current.wind_speed;
       var humidity = data.current.humidity;
+      // Adding data text to HTML
       $("#today-temp").text("Current temperature: " + temp + " °F");
       $("#today-wind").text("Wind: " + wind + " mph");
       $("#today-humidity").text("Humidity: " + humidity + " %");
+      // Clearing out HTML for previous searches
       $fiveDayForcastBody.empty();
 
+      // For loop for next 5 day forcast
       for (var i = 0; i < 5; i++) {
         var temp = data.daily[i].temp.day;
         var wind = data.daily[i].wind_speed;
         var humidity = data.daily[i].humidity;
-
+        // Create a div element for each one of the five days
         var $dayCardEl = $("<div>");
         $dayCardEl.attr(
           "class",
@@ -90,6 +95,7 @@ function searchWeather() {
         $dayHumidityEl.text("Humidity: " + humidity + " %");
 
         $dayCardEl.append($dayDateEl, $dayTempEl, $dayWindEl, $dayHumidityEl);
+        // Append cards to HTML
         $fiveDayForcastBody.append($dayCardEl);
       }
     });
@@ -105,6 +111,7 @@ function printCityName(city) {
   $cityName.text(city.toUpperCase());
 }
 
+// Add searched city names to local storage
 function saveRecentSearches(city) {
   var recentSearch = city.toUpperCase();
   var recentSearches = localStorage.getItem("RecentSearches");
@@ -120,13 +127,16 @@ function saveRecentSearches(city) {
 }
 
 function displayRecentSearches() {
+  // Retrieve searched cities from local storage
   var searches = JSON.parse(localStorage.getItem("RecentSearches"));
   var counter = 0;
+  // Display the last 5 searches by creating a counter and stopping when it reaches
   $("#recent-searches-list").empty();
   for (var i = searches.length - 1; i >= 0; i--) {
     if (counter === 5) {
       return;
     } else {
+      // Create a button and append the city name from local storage as text
       var $searchedCityButton = $("<button>");
       $searchedCityButton.attr("class", "btn btn-outline-info");
       $searchedCityButton.text(searches[i]);
@@ -138,10 +148,9 @@ function displayRecentSearches() {
   }
 }
 
+// When clicking a button of a recently searched city, pass the city name through the function below
 function openRecentSearch(event) {
-  console.log(event);
   var cityClicked = event.target.innerText;
-  console.log(cityClicked);
   searchCoordinates(cityClicked);
   printCityName(cityClicked);
 }
