@@ -34,12 +34,12 @@ function searchCoordinates(city) {
       }
     })
     .catch(function (error) {
-      // If city name is in valid, alert
+      // If city name is invalid, alert
       alert(error);
     });
 }
 
-// API call to fetch weathe information based on coordinates
+// API call to fetch weather information based on coordinates
 function searchWeather() {
   var url =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
@@ -130,7 +130,7 @@ function displayRecentSearches() {
   // Retrieve searched cities from local storage
   var searches = JSON.parse(localStorage.getItem("RecentSearches"));
   var counter = 0;
-  // Display the last 5 searches by creating a counter and stopping when it reaches
+  // Display the last 5 searches by creating a counter and stopping when it reaches 5
   $("#recent-searches-list").empty();
   for (var i = searches.length - 1; i >= 0; i--) {
     if (counter === 5) {
