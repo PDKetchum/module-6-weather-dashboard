@@ -29,8 +29,8 @@ function searchCoordinates(city) {
         lat = data[0].lat;
 
         searchWeather();
-        printCityName($searchInput.val().toUpperCase());
-        saveRecentSearches();
+        printCityName(city.toUpperCase());
+        saveRecentSearches(city);
         displayRecentSearches();
       }
     })
@@ -105,8 +105,8 @@ function printCityName(city) {
   $cityName.text(city.toUpperCase());
 }
 
-function saveRecentSearches() {
-  var recentSearch = $searchInput.val().toUpperCase();
+function saveRecentSearches(city) {
+  var recentSearch = city.toUpperCase();
   var recentSearches = localStorage.getItem("RecentSearches");
   if (recentSearches) {
     recentSearches = JSON.parse(recentSearches);
